@@ -1,5 +1,5 @@
 // 处理得到的html字符串
-export default function handleContent(content: string, isCN: Boolean) {
+export default function handleContent(content: string) {
     let result: object[] = [];
     if (content) {
         const sectionReg = /<div class="sectionHeading">\n(.+)\n<\/div>/gi;
@@ -42,7 +42,7 @@ export default function handleContent(content: string, isCN: Boolean) {
                     }
                 }
                 const markReg = marks.match(/<div class="noteText">\n(.+)\n<\/div>/i);
-                const markContent = markReg && markReg[1].trim() || ''; // 获取标注内容
+                const markContent = (markReg && markReg[1].trim()) || ''; // 获取标注内容
                 return {
                     pageNum, // 标注的页码
                     isMarking, // 是否为标记（或是笔记）

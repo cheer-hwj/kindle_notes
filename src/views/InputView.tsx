@@ -59,9 +59,24 @@ export default function InputView({ setFileTxt }) {
                 reader.onload = function (e) {
                     //如果是 Arraybuffer 则不处理
                     if (e.target && typeof e.target.result === 'string') {
+                        const content = e.target.result;
+                        const nameReg = content.match(/<div class="bookTitle">\n\s+(.+)\n\s+<\/div>/i);
+
+                        let txtIndex = 0; // 有效内容的索引
+                        let bookname = file.name.replace('- Notebook.html', '').trim(); // 获取书名
+                        if (nameReg && nameReg[1]) {
+                            bookname = nameReg[1].trim();
+                            txtIndex = nameReg.index || 0;
+
+                            const authorReg = content.match(/<div class="authors">\n\s+(.+)\n\s+<\/div>/i);
+                            if (authorReg && authorReg[1]) {
+                                bookname += ' - ' + authorReg[1].trim();  // 获取作者
+                                txtIndex = authorReg.index || 0;
+                            }
+                        }
                         setFileTxt({
-                            name: file.name.replace('- Notebook.html', '').trim(),
-                            txt: e.target.result,
+                            name: bookname,
+                            txt: content.slice(txtIndex),
                             isCN: isCN
                         });// 传给父元素
                         curElem.value = ''; //本地清空

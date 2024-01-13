@@ -19,10 +19,10 @@ export default function Marks() {
     const initialData = { name: '', txt: '' }; // 数据初始值
     const [data, setData] = useState(initialData); // 获取文本数据
 
-    const setFileTxt = ({ name, txt, isCN }) => {
+    const setFileTxt = ({ name, txt }) => {
         setData({ name: name, txt: txt });
         // 处理文档
-        const content: MarkItem[] = handleContent(txt, isCN);
+        const content: MarkItem[] = handleContent(txt);
         setMarks(content);
     }
     const handleClear = () => {
